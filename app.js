@@ -2,7 +2,8 @@ const express = require('express')
 const app = express()
 const port = 3000
 /* test: abcdefghijikkk *
-   Test <yoonji>
+   Test <yoonji> 
+   edit 2
 /* Session */
 const session = require('express-session');
 app.use(session({
