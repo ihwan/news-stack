@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 3000
-/* test: abcdefghidfasdfadasfajikkkdafsdfasdfsadfsdaf */
+/* test: abcdefghidfasdfadasfajikkkdafsdfasdfsadfsdaf안뇽 */
 
 /*adfasdfas Session */
 const session = require('express-session');
