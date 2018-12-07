@@ -27,6 +27,12 @@
     </div>
   </div>
 
+ <form method="post" action="/news/comment">
+   <input type="hidden" name="articleId" value="<%= news.id %>">
+   <textarea name="comment"></textarea>
+   <input type="submit">
+ </form>
+
   <div class="row">
       <div class="col">
         <hr>
