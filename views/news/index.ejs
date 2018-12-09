@@ -53,3 +53,11 @@
   </div>
 </div>
 <%- include('includes/footer'); -%>
+
+
+
+<form method="post" action="/news/comment">
+  <input type="hidden" name="article_id" value="<%=news.id %>">
+  <textarea name="comment"></textarea>
+  <input type="submit" value="댓글달기">
+</form>

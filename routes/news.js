@@ -4,13 +4,13 @@ module.exports = function(app, conn, upload) {
   var category = require('../lib/category.js');
 
   /* 목록 */
-  router.get('/', (req, res) => {
+ router.get('/', (req, res) => {
     var selectedCategory = req.query.category;
     if (!selectedCategory) {
       selectedCategory = "";
     }
 
-    category.get(conn, function(categoryList) {
+    category.get(conn, function(categoryList) { // ---> 카테고리 리스트 기능은 어디?
 
       var sql = "SELECT a.*, c.title as `category_title` "
                 + "FROM news.article a "
@@ -159,6 +159,25 @@ module.exports = function(app, conn, upload) {
       }
     });
   });
+
+  /* Form comment 데이터 DB INSERT */
+ router.post('/comment', (req, res) => {
+   var comment = req.body.comment;
+   var article_id = req.body.article_id;
+
+   var sql = 'INSERT INTO comment (`comment`, `article_id`, `inserted`) VALUES(?, ?, now())';
+
+   conn.query(sql, [comment, article_id, upload], function(err, result, fields){
+
+     if(err){
+       console.log(err);
+       res.status(500).send('Internal Server Error: ' + err);
+
+     } else {
+       res.redirect('/news/' + result.insertId);
+     }
+   });
+ });
 
   return router;
 };

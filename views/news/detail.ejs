@@ -27,6 +27,22 @@
     </div>
   </div>
 
+  <ul>
+    <% for(var i=0; i < comment.length; i++) { %>
+      <li> <%= comment[i].comment %>
+        <%= moment(comment[i].inserted).format('YYYY-MM-DD h:mm:ss a') %>
+      </li>
+    <% } %>
+  </ul>
+
+
+<form method="post" action="/news/comment">
+  <input type="hidden" name="article_id" value="<%=news.id %>">
+  <textarea name="comment"></textarea>
+  <input type="submit" value="댓글달기">
+</form>
+
+
   <div class="row">
       <div class="col">
         <hr>
