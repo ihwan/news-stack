@@ -27,6 +27,14 @@
     </div>
   </div>
 
+  <form method="post" action="/news/coment">
+    <input type="hidden" name="articleId" value="<%= news.id %>">
+    <textarea name="comment"></textarea>
+    <input type="submit" value="댓글달기">
+
+    </form>
+
+
   <div class="row">
       <div class="col">
         <hr>

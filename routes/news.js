@@ -45,24 +45,21 @@ module.exports = function(app, conn, upload) {
     });
   });
 
-  /* Form 데이터 DB INSERT */
-  router.post('/add', upload.single('upload'), (req, res) => {
-    var title = req.body.title;
-    var category = req.body.category;
-    var desc = req.body.desc;
-    var author = req.body.author;
-    var upload = req.file.filename;
+  /* Form comment 데이터 DB INSERT */
+router.post('/comment', (req, res) => {
+ var comment = req.body.comment;
+ var articleId = req.body.articleId;
 
-    var sql = 'INSERT INTO article (`title`, `category`, `desc`, `author`, `upload`, `inserted`) VALUES(?, ?, ?, ?, ?, now())';
-    conn.query(sql, [title, category, desc, author, upload], function(err, result, fields){
-      if(err){
-        console.log(err);
-        res.status(500).send('Internal Server Error: ' + err);
-      } else {
-        res.redirect('/news/' + result.insertId);
-      }
-    });
-  });
+ var sql = 'INSERT INTO comment (`comment`, `articleId`, `inserted`)  `author`, VALUES(?, ?, ?,now())';
+ conn.query(sql, [comment, articleId], function(err, result, fields){
+   if(err){
+     console.log(err);
+     res.status(500).send('Internal Server Error: ' + err);
+   } else {
+     res.redirect('/news/' + result.insertId);
+   }
+ });
+});
 
   /* 수정 */
   router.get('/:id/edit', (req, res) => {
