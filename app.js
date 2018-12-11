@@ -1,9 +1,8 @@
 const express = require('express')
 const app = express()
 const port = 3000
-/* test: abcdefghijikkk *
-   Test <yoonji> 
-   edit 2
+/* test: abcdefghijikkk */
+
 /* Session */
 const session = require('express-session');
 app.use(session({
@@ -23,7 +22,7 @@ var conn = mysql.createConnection({
   user     : 'root',
   password : 'root',
   database : 'news',
-  port: 3306  /* 8889 on Mac client */
+  port: 8889  /* 8889 on Mac client */
 });
 
 /* Upload */

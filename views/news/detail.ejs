@@ -18,7 +18,7 @@
 
   <div class="row">
     <div class="col" style="white-space: pre-line;">
-      <%- news.desc %>
+      <%= news.desc %>
     </div>
     <div class="col">
       <% if (typeof news.upload !== 'undefined' && news.upload) { %>
@@ -26,6 +26,20 @@
       <% } %>
     </div>
   </div>
+
+
+<ul>
+<% for (var i=0; i<comments.length; i++) { %>
+  <li><%= comments[i].comment %> /
+  <%= moment(comments[i].inserted).format('YYYY-MM-DD h:mm:ss a') %></li>
+<% } %>
+</ul>
+
+<form method="post" action="/news/comment">
+    <input type="hidden" name="articleId" value="<%= news.id %>">
+    <textarea name="comment"></textarea>
+    <input type="submit" value="댓글 달기">
+</form>
 
   <div class="row">
       <div class="col">
