@@ -13,3 +13,19 @@
 .card {
   margin: 15px 0;
 }
+
+#header{
+        text-align: center;
+        background-color: #323c73;
+        padding: 15px;
+        color: solid white;
+      }
+
+.btn-group{
+      width:150px;
+        position: fixed;
+        right:20px;
+        top:20px;
+        margin-top:10px;
+      margin-right:100px;
+    }
