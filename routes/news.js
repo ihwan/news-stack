@@ -153,12 +153,22 @@ module.exports = function(app, conn, upload) {
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
       } else {
+
+        var sql = "SELECT * FROM comment WHERE article_id = ? ";
+        conn.query(sql, [id], function(err, commentlist, fields){
+          if(err){
+            console.log(err);
+            res.status(500).send('Internal Server Error: ' + err);
+          } else {
         res.render('news/detail', {
           news: news[0],
+          comments: commentlist,
         });
       }
     });
+  }
   });
+});
 
   /* Form comment 데이터 DB INSERT */
  router.post('/comment', (req, res) => {
@@ -166,18 +176,16 @@ module.exports = function(app, conn, upload) {
    var article_id = req.body.article_id;
 
    var sql = 'INSERT INTO comment (`comment`, `article_id`, `inserted`) VALUES(?, ?, now())';
-
-   conn.query(sql, [comment, article_id, upload], function(err, result, fields){
-
+   conn.query(sql, [comment, article_id], function(err, result, fields){
      if(err){
        console.log(err);
        res.status(500).send('Internal Server Error: ' + err);
-
      } else {
-       res.redirect('/news/' + result.insertId);
+       res.redirect('/news/'+ article_id);
      }
    });
  });
 
   return router;
-};
+
+     };
