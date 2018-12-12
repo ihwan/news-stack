@@ -15,19 +15,24 @@
 
   <% if (news.length>0) { %>
   <ul class="list-unstyled">
+    <div class="row">
     <% for(var i=0; i < news.length; i++) { %>
-    <li class="media">
 
-      <% if (typeof news[i].upload !== 'undefined' && news[i].upload) { %>
-        <a href="/news/<%= news[i].id %>"><img class="mr-3" src="/uploads/<%= news[i].upload %>"width="128"></a>
-      <% } %>
+  <div class="col-sm-4">
+      <div class="card" style="width: 18rem;">
+          <% if (typeof news[i].upload !== 'undefined' && news[i].upload) { %>
 
-      <div class="media-body">
-        <h5 class="mt-0 mb-1"><a href="/news/<%= news[i].id %>"><%= news[i].title %></a></h5>
-        <%= news[i].category_title %> /
-        <%= news[i].author %>
+        <img class="card-img-top" src="/uploads/<%= news[i].upload %>" alt="Card image cap">
+            <% } %>
+        <div class="card-body">
+          <h5 class="card-title"><%= news[i].category_title %> </h5>
+          <p class="card-text">  <%= news[i].author %></p>
+          <a href="/news/<%= news[i].id %>" class="btn btn-primary">Go somewhere</a>
+        </div>
       </div>
-    </li>
+</div>
+
+
     <% } %>
   </ul>
 

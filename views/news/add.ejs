@@ -18,6 +18,14 @@
       <input type="text" name="title" class="form-control" id="inputTitle" aria-describedby="inputTitle" placeholder="Enter title">
       <small id="titleHelp" class="form-text text-muted">기사의 제목을 입력해주세요.</small>
     </div>
+
+
+    <div class="form-group">
+      <label for="inputTitle">Price</label>
+      <input type="text" name="price" class="form-control" id="inputTitle" aria-describedby="inputTitle" placeholder="Enter title">
+      <small id="titleHelp" class="form-text text-muted">가격을 입력해주세요.</small>
+    </div>
+
     <div class="form-group">
       <label for="inputDesc">Description</label>
       <textarea name="desc" rows="8" cols="80" class="form-control" id="inputDesc"></textarea>
@@ -35,6 +43,7 @@
     </div>
     <button type="submit" class="btn btn-primary">작성하기</button>
     <a href="/news" class="btn btn-secondary">취소</a>
+
   </form>
 </div>
 <%- include('includes/footer'); -%>
