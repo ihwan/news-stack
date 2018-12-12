@@ -49,3 +49,16 @@
 
 </div>
 <%- include('includes/footer'); -%>
+
+<ul>
+  <% for (var i=0; i<comments.length; 1++) { %>
+  <li><%= comments[i].comment %> /
+  <%= moment(comments[i].inserted).format('YYYY-MM-DD h:mm:ss a') %></li>
+<% } %>
+</ul>
+
+<form method="post" action="/news/comment">
+    <input type="hidden" name="articleId" value="<%= news.id %>">
+    <textarea name="comment"></textarea>
+    <input type="submit" value="댓글달기"
+  </form>
