@@ -13,8 +13,8 @@ module.exports = function(app, conn, upload) {
     category.get(conn, function(categoryList) {
 
       var sql = "SELECT a.*, c.title as `category_title` "
-                + "FROM news.article a "
-                + "INNER JOIN news.category c on a.category = c.id "
+                + "FROM qna.article a "
+                + "INNER JOIN qna.category c on a.category = c.id "
       var sqlParam = []
 
       if (selectedCategory) {
@@ -22,12 +22,12 @@ module.exports = function(app, conn, upload) {
         sqlParam.push(selectedCategory);
       }
 
-      conn.query(sql, sqlParam, function(err, news, fields){
+      conn.query(sql, sqlParam, function(err, qna, fields){
         if(err){
           res.status(500).send('Internal Server Error: ' + err);
         } else {
-          res.render('news/index', {
-            news:news,
+          res.render('qna/index', {
+            qna:qna,
             category: categoryList,
             selectedCategory: selectedCategory
           });
@@ -39,7 +39,7 @@ module.exports = function(app, conn, upload) {
   /* 추가 */
   router.get('/add', (req, res) => {
     category.get(conn, function(categoryList) {
-      res.render('news/add', {
+      res.render('qna/add', {
         category: categoryList
       });
     });
@@ -59,7 +59,7 @@ module.exports = function(app, conn, upload) {
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
       } else {
-        res.redirect('/news/' + result.insertId);
+        res.redirect('/qna/' + result.insertId);
       }
     });
   });
@@ -70,16 +70,16 @@ module.exports = function(app, conn, upload) {
 
     category.get(conn, function(categoryList) {
       var sql = "SELECT a.*, c.title as `category_title` "
-                + "FROM news.article a "
-                + "INNER JOIN news.category c on a.category = c.id "
+                + "FROM qna.article a "
+                + "INNER JOIN qna.category c on a.category = c.id "
                 + "WHERE a.id=?";
 
-      conn.query(sql, [id], function(err, news, fields){
+      conn.query(sql, [id], function(err, qna, fields){
         if(err){
           console.log(err);
           res.status(500).send('Internal Server Error: ' + err);
         } else {
-          res.render('news/edit', {news:news[0], category: categoryList});
+          res.render('qna/edit', {qna:qna[0], category: categoryList});
         }
       });
     });
@@ -106,7 +106,7 @@ module.exports = function(app, conn, upload) {
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
       } else {
-        res.redirect('/news/' + id);
+        res.redirect('/qna/' + id);
       }
     });
   });
@@ -115,12 +115,12 @@ module.exports = function(app, conn, upload) {
   router.get('/:id/delete', (req, res) => {
     var id = req.params.id;
     var sql = 'SELECT * FROM article WHERE id=?';
-    conn.query(sql, [id], function(err, news, fields){
+    conn.query(sql, [id], function(err, qna, fields){
       if(err){
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
       } else {
-        res.render('news/delete', {news:news[0]});
+        res.render('qna/delete', {qna:qna[0]});
       }
     });
   });
@@ -135,7 +135,7 @@ module.exports = function(app, conn, upload) {
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
       } else {
-        res.redirect('/news/');
+        res.redirect('/qna/');
       }
     });
   });
@@ -149,24 +149,24 @@ module.exports = function(app, conn, upload) {
        var comment_list = [];
        /* DB에서 코멘트까지 불러오기 */
        var sql = "SELECT a.*, c.title as `category_title`, m.comment, m.inserted as `comment_inserted` "
-                 + "FROM news.article a "
-                 + "INNER JOIN news.category c on a.category = c.id "
-                 + "LEFT JOIN news.comment m on m.articleId = a.id "
+                 + "FROM qna.article a "
+                 + "INNER JOIN qna.category c on a.category = c.id "
+                 + "LEFT JOIN qna.comment m on m.qnaId = a.id "
                  + "WHERE a.id=?";
-        conn.query(sql, [id], function(err, news, fields){
+        conn.query(sql, [id], function(err, qna, fields){
           if(err){
            console.log(err);
            res.status(500).send('Internal Server Error: ' + err);
          } else {
            /* DB에서 불러온 코멘트를 리스트에 저장 */
-           for (var i in news) {
+           for (var i in qna) {
              comment_list.push({
-               'comment': news[i].comment,
-               'inserted': news[i].comment_inserted
+               'comment': qna[i].comment,
+               'inserted': qna[i].comment_inserted
              })
            };
-            res.render('news/detail', {
-             news: news[0],
+            res.render('qna/detail', {
+             qna: qna[0],
              /* comments라는 이름으로 프론트에 보내기 */
              comments: comment_list
            });
@@ -185,7 +185,7 @@ module.exports = function(app, conn, upload) {
          res.status(500).send('Internal Server Error: '+err);
        }
        else{
-         res.redirect('/news/' + articleId);
+         res.redirect('/qna/' + articleId);
        }
      });
    });

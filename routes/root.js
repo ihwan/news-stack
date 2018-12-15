@@ -4,7 +4,7 @@ module.exports = function(app, conn){
 
   /* root */
   router.get('/', (req, res) => {
-    res.redirect('/news');
+    res.redirect('/qna');
   });
 
   return router;

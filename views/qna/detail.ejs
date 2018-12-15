@@ -1,0 +1,65 @@
+<%- include('includes/header'); -%>
+<%- include('includes/nav'); -%>
+
+<div class="container">
+
+<% if (qna) { %>
+  <div class="row">
+    <div class="col">
+      <h1><%= qna.title %></h1>
+      <h5>분류: <%= qna.category_title %> / 기자: <%= qna.author %></h5>
+      <p>
+        입력: <%= moment(qna.inserted).format('YYYY-MM-DD h:mm:ss a') %>
+        <% if (qna.updated) { %>/ 수정: <%= moment(qna.updated).format('YYYY-MM-DD h:mm:ss a') %><% } %>
+      </p>
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col" style="white-space: pre-line;">
+      <%- qna.desc %>
+    </div>
+    <div class="col">
+      <% if (typeof qna.upload !== 'undefined' && qna.upload) { %>
+        <img src="/uploads/<%= qna.upload %>">
+      <% } %>
+    </div>
+  </div>
+
+  <ul>
+      <% for (var i=0; i<comments.length; i++) { %>
+      <li><%= comments[i].comment %> /
+      <%= moment(comments[i].inserted).format('YYYY-MM-DD h:mm:ss a') %> </li>
+    <% } %>
+    </ul>
+
+    <form method="post" action="/qna/comment">
+      <input type="hidden" name="qnaId" value=" <%= qna.id %>">
+      <textarea name="comment"></textarea>
+        <input type="submit" value="댓글달기">
+        </form>
+
+  <div class="row">
+      <div class="col">
+        <hr>
+      </div>
+  </div>
+
+  <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+
+    <div class="btn-group" role="group" aria-label="First group">
+      <a href="/qna/<%= qna.id %>/edit" class="btn btn-outline-primary">수정</a>
+      <a href="/qna/<%= qna.id %>/delete" class="btn btn-outline-secondary">삭제</a>
+    </div>
+    <div class="input-group">
+      <a href="/qna/" class="btn btn-outline-info">목록</a>
+    </div>
+  </div>
+<% } else { %>
+  <p>Not exist</p>
+<% } %>
+
+
+</div>
+<%- include('includes/footer'); -%>

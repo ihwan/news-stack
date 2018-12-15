@@ -1,0 +1,48 @@
+<%- include('includes/header'); -%>
+<%- include('includes/nav'); -%>
+
+<div class="container">
+      <h2>QnA</h2>
+      <hr align="center" style="border:solid 0.5px black; width: 99%">
+    </div>
+
+        <div class="container">
+  <form method="post" enctype="multipart/form-data">
+    <div class="form-group" style=margin-bottom:50px;>
+      <label for="inputTitle">카테고리</label>
+      <select class="custom-select" name="category">
+        <option>카테고리를 선택해주세요.</option>
+        <% for (var i=0; i < category.length; i++) { %>
+          <option value="<%= category[i].id %>"><%= category[i].title %></option>
+        <% } %>
+      </select>
+    </div>
+
+        <div class="form-group" style=margin-bottom:50px;>
+      <label for="inputTitle">제목</label>
+      <input type="text" name="title" class="form-control" id="inputTitle" aria-describedby="inputTitle" placeholder="제목을 입력해주세요.">
+    </div>
+
+
+        <div class="form-group" style=margin-bottom:50px;>
+          <label for="inputDesc">문의 내용</label>
+          <textarea class="form-control" rows="10" cols="80" id="inputDesc" name="desc" placeholder="문의하실 내용을 작성해주세요."></textarea>
+        </div>
+
+        <div class="form-group" style=margin-bottom:50px;>
+              <label for="inputTitle">글쓴이</label>
+              <input type="text" name="author" class="form-control" id="inputAuthor" aria-describedby="inputAuthor" placeholder="이름을 입력해주세요.">
+            </div>
+
+        <div class="form-group" style=margin-bottom:50px;>
+              <label for="inputUpload">첨부파일</label>
+              <input type="file" name="upload"  id="inputUpload" aria-describedby="inputUpload">
+              <small id="uploadHelp" class="form-text text-muted">사진을 업로드 해주세요. </small>
+            </div>
+
+            <center><button type="submit" class="btn btn-secondary" style="margin-right:10px;">작성하기</button>
+            <a href="/qna" class="btn btn-secondary">취소하기</a></center>
+          </form>
+        </div>
+
+<%- include('includes/footer'); -%>

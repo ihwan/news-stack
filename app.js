@@ -24,7 +24,7 @@ var conn = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'root',
-  database : 'news',
+  database : 'qna',
   port: 3306  /* 8889 on Mac client */
 });
 
@@ -59,8 +59,8 @@ var root = require('./routes/root.js')(app, conn, upload);
 app.use('/', root);
 
 /* news app */
-var news = require('./routes/news.js')(app, conn, upload);
-app.use('/news', news);
+var qna = require('./routes/qna.js')(app, conn, upload);
+app.use('/qna', qna);
 
 /* account app */
 var account = require('./routes/account.js')(app, conn, upload);

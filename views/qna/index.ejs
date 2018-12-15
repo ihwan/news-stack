@@ -6,26 +6,28 @@
   <h1>QnA</h1>
   <ul class="nav nav-pills">
     <li class="nav-item">
-      <a class="nav-link <% if (!selectedCategory) { %>active<% } %>" href="/news">전체</a>
+      <a class="nav-link <% if (!selectedCategory) { %>active<% } %>" href="/qna/">전체</a>
     </li>
     <% for(var i=0; i < category.length; i++) { %>
       <a class="nav-link <% if (selectedCategory==category[i].id) { %>active<% } %>" href="?category=<%= category[i].id %>"><%= category[i].title %></a>
     <% } %>
   </ul>
 
-  <% if (news.length>0) { %>
+
+
+  <% if (qna.length>0) { %>
   <ul class="list-unstyled">
-    <% for(var i=0; i < news.length; i++) { %>
+    <% for(var i=0; i < qna.length; i++) { %>
     <li class="media">
 
-      <% if (typeof news[i].upload !== 'undefined' && news[i].upload) { %>
-        <a href="/news/<%= news[i].id %>"><img class="mr-3" src="/uploads/<%= news[i].upload %>"width="128"></a>
+      <% if (typeof qna[i].upload !== 'undefined' && qna[i].upload) { %>
+        <a href="/qna/<%= qna[i].id %>"><img class="mr-3" src="/uploads/<%= qna[i].upload %>"width="128"></a>
       <% } %>
 
       <div class="media-body">
-        <h5 class="mt-0 mb-1"><a href="/news/<%= news[i].id %>"><%= news[i].title %></a></h5>
-        <%= news[i].category_title %> /
-        <%= news[i].author %>
+        <h5 class="mt-0 mb-1"><a href="/qna/<%= qna[i].id %>"><%= qna[i].title %></a></h5>
+        <%= qna[i].category_title %> /
+        <%= qna[i].author %>
       </div>
     </li>
     <% } %>
@@ -38,7 +40,7 @@
       </div>
       <div class="card-body">
         <blockquote class="blockquote mb-0">
-          <p>Please add new article</p>
+          <p>문의하실 내용을 남겨주세요.</p>
         </blockquote>
       </div>
     </div>
@@ -48,7 +50,7 @@
     <div class="btn-group" role="group" aria-label="First group">
     </div>
     <div class="input-group">
-      <a href="/news/add" class="btn btn-outline-success">기사작성</a>
+      <a href="/qna/add" class="btn btn-outline-success">글쓰기</a>
     </div>
   </div>
 </div>
