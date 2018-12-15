@@ -42,6 +42,10 @@ body {
   border-radius: 0;
 }
 .form-signin input[name="username"] {
+  margin-bottom: -1px;
+  border-radius: 0;
+}
+.form-signin input[name="age"] {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;

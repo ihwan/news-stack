@@ -52,9 +52,11 @@ module.exports = function(app, conn, upload) {
     var desc = req.body.desc;
     var author = req.body.author;
     var upload = req.file.filename;
+    var price = req.body.price;
 
-    var sql = 'INSERT INTO article (`title`, `category`, `desc`, `author`, `upload`, `inserted`) VALUES(?, ?, ?, ?, ?, now())';
-    conn.query(sql, [title, category, desc, author, upload], function(err, result, fields){
+
+    var sql = 'INSERT INTO article (`title`, `category`, `desc`, `author`, `upload`, `inserted`, `price`) VALUES(?, ?, ?, ?, ?,?, now())';
+    conn.query(sql, [title, category, desc, author, upload, price], function(err, result, fields){
       if(err){
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
@@ -143,6 +145,7 @@ module.exports = function(app, conn, upload) {
   /* 상세보기 */
   router.get('/:id', (req, res) => {
     var id = req.params.id;
+
     var sql = "SELECT a.*, c.title as `category_title` "
               + "FROM news.article a "
               + "INNER JOIN news.category c on a.category = c.id "
@@ -153,12 +156,42 @@ module.exports = function(app, conn, upload) {
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
       } else {
-        res.render('news/detail', {
-          news: news[0],
-        });
+
+        var sql = "SELECT * FROM comment WHERE articleId = ? ";
+        conn.query(sql, [id], function(err, commentlist, fields){
+         if(err){
+           console.log(err);
+           res.status(500).send('Internal Server Error: ' + err);
+         } else {
+           res. render('news/detail', {
+           news: news[0],
+           comments: commentlist,
+         });
+       }
+     });
+   }
+ });
+});
+
+
+
+  /* Form commnet 데이터 DB INSERT */
+  router.post('/comment', (req, res) => {
+    var comment = req.body.comment;
+
+    var articleId = req.body.articleId;
+
+    var sql = 'INSERT INTO comment (`comment`,`articleId`, `inserted`) VALUES(?, ?, now())';
+    conn.query(sql, [comment, articleId], function(err, result, fields){
+      if(err){
+        console.log(err);
+        res.status(500).send('Internal Server Error: ' + err);
+      } else {
+        res.redirect('/news/' + articleId);
       }
     });
   });
+
 
   return router;
 };
