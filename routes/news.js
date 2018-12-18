@@ -3,6 +3,25 @@ module.exports = function(app, conn, upload) {
   var router = express.Router();
   var category = require('../lib/category.js');
 
+
+
+  /* Form comment데이터 DB INSERT */
+  router.post('/comment', (req, res) => {
+    var comment = req.body.comment;
+    var articleId = req.body.articleId;
+
+
+    var sql = 'INSERT INTO comment (`comment`,`articleId`, `inserted`) VALUES(?, ?, now())';
+    conn.query(sql, [comment, articleId], function(err, result, fields){
+      if(err){
+        console.log(err);
+        res.status(500).send('Internal Server Error: ' + err);
+      } else {
+        res.redirect('/news/' + result.insertId);
+      }
+    });
+  });
+
   /* 목록 */
   router.get('/', (req, res) => {
     var selectedCategory = req.query.category;
@@ -44,6 +63,7 @@ module.exports = function(app, conn, upload) {
       });
     });
   });
+
 
   /* Form 데이터 DB INSERT */
   router.post('/add', upload.single('upload'), (req, res) => {
@@ -153,12 +173,24 @@ module.exports = function(app, conn, upload) {
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
       } else {
-        res.render('news/detail', {
-          news: news[0],
+        var sql = "SELECT * FROM comment WHERE articleId=?";
+        conn.query(sql, [id], function(err, commentList,fields){
+          if(err){
+            console.log(err);
+            res.status(500).send('Internal Server Error: ' + err);
+          }else{
+            res.render('news/detail', {
+              news: news[0],
+              comments:commentList,
+            });
+          }
         });
+
+      
       }
     });
   });
 
-  return router;
+
+return router;
 };
