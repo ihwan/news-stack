@@ -20,7 +20,7 @@ var mysql = require('mysql');
 var conn = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'mysql1234',
+  password : 'Djajsk!8520',
   database : 'news_stack',
   port: 3306  /* 8889 on Mac client */
 });
