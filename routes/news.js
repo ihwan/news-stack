@@ -64,6 +64,22 @@ module.exports = function(app, conn, upload) {
     });
   });
 
+/*Form comment 데이터 DB INSERT* 1129 수정*/
+router.post('/comment', (req,res) => {
+  var comment = req.body.comment;
+  var articleid = req.body.articleid;
+  var sql = 'INSERT INTO comment (`articleid`, `comment`, `inserted`) VALUES( ?, ?, now())';
+  conn.query(sql, [comment, articleid], function(err, result, fields) {
+    if(err){
+      console.log(err);
+      res. status(500).send('Internal Server Error' + err);
+    } else {
+      res.redirect('/news/' + articleid);
+    }
+  });
+});
+
+
   /* 수정 */
   router.get('/:id/edit', (req, res) => {
     var id = req.params.id;
@@ -153,12 +169,22 @@ module.exports = function(app, conn, upload) {
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
       } else {
-        res.render('news/detail', {
-          news: news[0],
-        });
-      }
-    });
+        /*여기 수정*/
+        var sql = "SELECT * FROM comment WHERE articleid = ? ";
+        conn.query(sql, [id], function(err, commentlist, fields){
+          if(err){
+            console.log(err);
+            res.status(500).send('Internal Server Error: ' + err);
+          } else {
+            res.render('news/detail', {
+              news: news[0],
+              comments: commentlist, /*여기 수정*/
+          });
+        }
+      });
+    }
   });
+});
 
   return router;
 };
