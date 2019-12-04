@@ -67,6 +67,87 @@ app.use('/account', account);
 var account = require('./routes/admin.js')(app, conn, upload);
 app.use('/admin', account);
 
+/* 목록 */
+app.get('/news/:id/', (req, res) => {
+  var sql = 'SELECT * FROM comments';
+  conn.query(sql, function(err, comments, fields){
+    if(err){
+      console.log(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.render('detail', {comments:comments});
+    }
+  });
+});
+
+/* 추가 */
+app.get('/news/:id', (req, res) => {
+  res.render('comments', {});
+});
+
+/* Form 데이터 DB INSERT */
+app.post('/news', (req, res) => {
+  var comments = req.body.comments;
+
+  var sql = 'INSERT INTO news (`comments`) VALUES(?)';
+  conn.query(sql, [comments], function(err, result, fields){
+    if(err){
+      console.log(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.redirect('/news' + result.insertId); 
+    }
+  });
+});
+
+
+/* Form 데이터 DB UPDATE */
+app.post('/news/:id/', (req, res) => {
+  var id = req.params.id;
+  var cid = req.params.cid;
+  var comments = req.body.comments;
+
+  var sql = 'UPDATE news SET id = ?, `cid`= ?, `comments` = ? WHERE id = ?;';
+  conn.query(sql, [ id, cid, comments,], function(err, err, fields){
+    if(err){
+      console.log(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.redirect('/news/:id' + id);
+    }
+  });
+});
+
+/* Delete confirmation 
+app.get('/news/:id/delete', (req, res) => {
+  var id = req.params.id;
+  var sql = 'SELECT * FROM commnet WHERE id=?';
+  conn.query(sql, [id], function(err, news, fields){
+    if(err){
+      console.log(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.render('news_delete', {news:news[0]});
+    }
+  });
+});
+
+/* DELETE DB row
+app.post('/news/:id/delete', (req, res) => {
+  var id = req.params.id;
+
+  var sql = 'DELETE FROM news WHERE id = ?';
+  conn.query(sql, [id], function(err, result, fields){
+    if(err){
+      console.log(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.redirect('/news/');
+    }
+  });
+});
+
+
 /* Port listening */
 app.listen(port, () => console.log(
     `Server is running... http://localhost:${port}`
