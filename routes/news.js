@@ -153,12 +153,39 @@ module.exports = function(app, conn, upload) {
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
       } else {
-        res.render('news/detail', {
-          news: news[0],
+      
+
+          var sql = "SELECT `comments` FROM `comments`";
+            conn.query(sql, [], function(err, comments, fields){
+            if(err){
+              console.log(err);
+              res.status(500).send('Internal Server Error: ' + err);
+            } else {
+              var array = [];
+              for(i=0; i<comments.length; i++)
+              array.push(comments[i]);
+              res.render('news/detail', {
+              news: news[0],
+              comments: comments
+            });
+          }
         });
       }
     });
   });
-
+  router.post('/:id/', (req, res) => {
+    console.log(req.body);
+    var id = req.params.id;
+    var comments = req.body.comments;
+    var sql = 'INSERT INTO `comments` (`comments`) VALUES(?)';
+    conn.query(sql, [comments], function(err, result, fields){
+      if(err){
+        console.log(err);
+        res.status(500).send('Internal Server Error: ' + err);
+      } else {
+        res.redirect('/news/'+id);
+      }
+    });
+  });
   return router;
-};
+}; 
