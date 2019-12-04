@@ -3,7 +3,7 @@ module.exports = function(app, conn){
   var router = express.Router();
   var md5 = require('md5');
 
-  /* Login */
+  /* Login */ /*로그인 실제 화면*/ 
   router.get('/login', (req, res) => {
     res.render('account/login', {});
   });

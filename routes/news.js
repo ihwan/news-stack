@@ -124,12 +124,40 @@ module.exports = function(app, conn, upload) {
       }
     });
   });
+  
+  /*  Delete confirmation */
+  router.get('/:id/cdelete', (req, res) => {
+    var id = req.params.id;
+    var sql = 'SELECT * FROM comments WHERE id=?';
+    conn.query(sql, [id], function(err, comments, fields){
+      if(err){
+        console.log(err);
+        res.status(500).send('Internal Server Error: ' + err);
+      } else {
+        res.render('news/cdelete', {comments:comments[0]});
+      }
+    });
+  });
+
 
   /* DELETE DB row */
   router.post('/:id/delete', (req, res) => {
     var id = req.params.id;
-
     var sql = 'DELETE FROM article WHERE id = ?';
+    conn.query(sql, [id], function(err, result, fields){
+      if(err){
+        console.log(err);
+        res.status(500).send('Internal Server Error: ' + err);
+      } else {
+        res.redirect('/news/');
+      }
+    });
+  });
+
+  /*댓글 DELETE DB row*/
+  router.post('/:id/cdelete', (req, res) => {
+    var id = req.params.id;
+    var sql = 'DELETE FROM comments WHERE id = ?';
     conn.query(sql, [id], function(err, result, fields){
       if(err){
         console.log(err);
@@ -153,12 +181,54 @@ module.exports = function(app, conn, upload) {
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
       } else {
-        res.render('news/detail', {
-          news: news[0],
+          var sql = "SELECT `comments` FROM `comments`";
+            conn.query(sql, [], function(err, comments, fields){
+            if(err){
+              console.log(err);
+              res.status(500).send('Internal Server Error: ' + err);
+            } else {
+              var array = [];
+              for(i=0; i<comments.length; i++)
+              array.push(comments[i]);
+              res.render('news/detail', {
+              news: news[0],
+              comments: comments
+            });
+          }
         });
       }
     });
   });
+  router.post('/:id/', (req, res) => {
+    console.log(req.body);
+    var id = req.params.id;
+    var comments = req.body.comments;
+    var sql = 'INSERT INTO `comments` (`comments`) VALUES(?)';
+    conn.query(sql, [comments], function(err, result, fields){
+      if(err){
+        console.log(err);
+        res.status(500).send('Internal Server Error: ' + err);
+      } else {
+        res.redirect('/news/'+id);
+      }
+    });
+  });
+
+
+  router.post('comments/:id/delete', (req, res) => {
+    var id = req.params.id;
+
+    var sql = 'DELETE FROM comments WHERE id = ?';
+    conn.query(sql, [id], function(err, result, fields){
+      if(err){
+        console.log(err);
+        res.status(500).send('Internal Server Error: ' + err);
+      } else {
+        res.redirect('/news/');
+      }
+    });
+  });
+
 
   return router;
-};
+}; 

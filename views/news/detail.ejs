@@ -34,7 +34,7 @@
   </div>
 
   <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-
+ 
     <div class="btn-group" role="group" aria-label="First group">
       <a href="/news/<%= news.id %>/edit" class="btn btn-outline-primary">수정</a>
       <a href="/news/<%= news.id %>/delete" class="btn btn-outline-secondary">삭제</a>
@@ -43,9 +43,14 @@
       <a href="/news/" class="btn btn-outline-info">목록</a>
     </div>
   </div>
+  
+
+ <%- include('includes/comments'); -%>
+
+
 <% } else { %>
   <p>Not exist</p>
 <% } %>
+<%- include('includes/footer'); -%>
 
 </div>
-<%- include('includes/footer'); -%>
