@@ -152,13 +152,41 @@ module.exports = function(app, conn, upload) {
       if(err){
         console.log(err);
         res.status(500).send('Internal Server Error: ' + err);
+
       } else {
-        res.render('news/detail', {
-          news: news[0],
+        var commentSql = "SELECT * FROM comment WHERE article_id = ?";
+        conn.query(commentSql, [id], function(err, comments, fields){
+          if(err){
+            console.log(err);
+            res.status(500).send('Internal Server Error: ' + err);
+          } else {
+            res.render('news/detail', {
+              news: news[0],
+              comments: comments
+            });
+          }
         });
       }
     });
   });
+
+  /* COMMENT 데이터 DB INSERT */
+  router.post('/:id/comment', (req, res) => {
+    var articleId = req.params.id;
+    var author = req.body.author;
+    var desc = req.body.desc;
+    
+    var sql = 'INSERT INTO comment (`article_id`, `author`, `desc`, `inserted`) VALUES(?, ?, ?, now())';
+    conn.query(sql, [articleId, author, desc], function(err, result, fields){
+      if(err){
+        console.log(err);
+        res.status(500).send('Internal Server Error: ' + err);
+      } else {
+        res.redirect('/news/' + articleId);
+      }
+    });
+  });
+
 
   return router;
 };
