@@ -32,12 +32,51 @@
         <hr>
       </div>
   </div>
+  <div class="row">
+    <div class="col">
+        <hr>
+        <h4>댓글</h4>
+        <!-- Styles from https://getbootstrap.com/docs/4.3/components/forms/#form-controls -->
+        <form method="post" action="/news/<%= news.id %>/comment">
+            <div class="form-group">
+              <label for="exampleInputEmail1">이름</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" name="author">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">내용</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="desc"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">작성하기</button>
+        </form>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <!-- Styles from https://getbootstrap.com/docs/4.3/components/list-group/#flush-->
+        <% if (comments.length>0) { %>
+          <ul class="list-group list-group-flush">
+            <% for(var i=0; i < comments.length; i++) { %>
+              <li class="list-group-item">
+                <strong><%= comments[i].author %>님 작성, </strong>
+                <%= comments[i].desc %>
+                - 
+                <i><%= moment(comments[i].inserted).format('YYYY-MM-DD h:mm:ss a') %></i>
+              </li>
+            <% } %>
+          </ul>
+        <% } else { %>
+          <p>댓글이 아직 없어요.</p>
+        <% } %>
+    </div>
+</div>
 
   <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 
     <div class="btn-group" role="group" aria-label="First group">
       <a href="/news/<%= news.id %>/edit" class="btn btn-outline-primary">수정</a>
-      <a href="/news/<%= news.id %>/delete" class="btn btn-outline-secondary">삭제</a>
+      <a href="/news/<%= news.id %>/comment" class="btn btn-outline-secondary">댓글</a>
+      <a href="/news/<%= news.id %>/delete" class="btn btn-outline-thirdary">삭제</a>
     </div>
     <div class="input-group">
       <a href="/news/" class="btn btn-outline-info">목록</a>

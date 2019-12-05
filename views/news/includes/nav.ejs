@@ -4,7 +4,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <a class="navbar-brand" href="#">News Stack</a>
+    <a class="navbar-brand" href="#"><img src="static/img/chongdaebot_logo.png"></a>
 
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active">
@@ -18,10 +18,33 @@
     </ul>
 
     <% if(locals.user) { %>
-    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex"><li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= locals.user.email %>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      나의참여스터디
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">기상 스터디</a>
+                      <a class="dropdown-item" href="#">프랑스어 100점</a>
+                      <a class="dropdown-item" href="#">토익 부수기</a>
+                      <a class="dropdown-item" href="#">이지영 인강</a>
+                    </div>
+          <a class="dropdown-item" href="#"><%= locals.user.name %></a>
+          <a class="dropdown-item" href="#">설정</a>
+          <a class="dropdown-item" href="#">고객Q&A</a>
+          <a class="dropdown-item" href="#">상품함</a>
+          <a class="dropdown-item" href="#">환급 정보</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/account/logout">로그아웃</a>
+      </div>
+    </li>
+
       <li class="nav-item">
         <a class="nav-item nav-link mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <%= locals.user.email %>
+        
         </a>
       </li>
       <li class="nav-item">
